@@ -1,8 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
-  const avengers = [{name:'X', universe:"Marvel"}, {name:'Spider', universe:"Marvel"}, {name:'Bat', universe:"DC"}, {name:'Super', universe:"DC"}]
+  const [avengers, setAvengers] = useState([])
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(res => res.json())
+      .then(data => setAvengers(data))
+  }, [])
+  // const avengers = [{ name: 'X', universe: "Marvel" }, { name: 'Spider', universe: "Marvel" }, { name: 'Bat', universe: "DC" }, { name: 'Super', universe: "DC" }]
   const appStyle = {
     display: 'flex'
   }
@@ -11,7 +17,7 @@ function App() {
       <header className="App-header">
         <MovieCount></MovieCount>
         {
-          avengers.map(ag =><Hero name={ag.name} universe={ag.universe}></Hero>)
+          avengers.map(ag => <Hero name={ag.name} key={ag.id} universe={ag.universe} ></Hero>)
         }
         <div style={appStyle}>
           <Hero name="X" universe="Marvel"></Hero>
@@ -19,7 +25,7 @@ function App() {
           <Hero name="Bat" universe="DC"></Hero>
           <Hero name="Super" universe="DC"></Hero>
         </div>
-
+          
       </header>
     </div>
   );
